@@ -1,0 +1,13 @@
+2.1_2022-12-21
+    - Tab autocomplete
+    - Individual toggles per player (chatping.toggle)
+    - Individual aliases (chatping.alias)
+    - New command structure:
+        - /chatping - Default command
+            - admin - Admin controls
+                - sound - change default sound (does not affect those who have customized)
+                - soundreset - resets all to default sound
+                - toggle - toggle options
+                    - ping
+                    -
+            - toggle -

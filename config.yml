@@ -1,0 +1,14 @@
+# This is the config file for ChatPing.
+# Please use in-game commands to make changes.
+
+ping-sound: "ENTITY_CAT_AMBIENT"
+highlight-color: "6"
+sound-enabled: true
+color-enabled: true
+message-enabled: true
+
+player-prefs:
+  00000000-0000-0000-0000-000000000000:
+    prefs: "10101000001"
+    color: "6"
+    sound: "ENTITY_CAT_AMBIENT"
