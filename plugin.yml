@@ -21,7 +21,7 @@ permissions:
             chatping.admin: true
     chatping.user:
         description: Grants ability to be pinged as well as access to prefs argument.
-        default: true
+        default: op
     chatping.admin:
         description: Grants access to default and override arguments.
         default: op
