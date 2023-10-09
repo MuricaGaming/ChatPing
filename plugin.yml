@@ -23,5 +23,5 @@ permissions:
         description: Grants ability to be pinged as well as access to prefs argument.
         default: op
     chatping.admin:
-        description: Grants access to default and override arguments.
+        description: Grants access to defaults and override arguments.
         default: op
