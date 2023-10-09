@@ -51,7 +51,7 @@ public class ChatListener implements Listener
 			if(matcher.find())
 				nameFound = true;
 
-			if (p.hasPermission("chatping.ping") && recipientPrefs.pingsOn && (nameFound || aliasFound)) {
+			if (p.hasPermission("chatping.user") && recipientPrefs.pingsOn && (nameFound || aliasFound)) {
 				matches = new ArrayList<>();
 				if (recipientPrefs.soundOn)
 					p.playSound(p.getLocation(), recipientPrefs.pingSound, 1, 1);

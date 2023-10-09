@@ -45,17 +45,14 @@ public class PlayerPreferences {
         aliases = names;
     }
 
-    public void addAlias(String a) {
-        aliases.add(a);
-    }
-
-    public boolean removeAlias(String a) {
-        if (aliases.contains(a)) {
-            aliases.remove(a);
+    public boolean addRemoveAlias(String a) {
+        if (!aliases.contains(a.toLowerCase())) {
+            aliases.add(a.toLowerCase());
             return true;
-        }
-        else
+        } else {
+            aliases.remove(a.toLowerCase());
             return false;
+        }
     }
 
     public UUID getUUID() {

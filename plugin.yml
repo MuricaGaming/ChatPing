@@ -10,19 +10,18 @@ commands:
     chatping:
         description: Main plugin command
         aliases: [cping]
-        permission: chatping.admin
+        permission: chatping.user
 
 permissions:
     chatping.*:
         description: Grants full administrative capabilities.
         default: op
         children:
-            chatping.ping: true
-            chatping.alias: true
+            chatping.user: true
             chatping.admin: true
-    chatping.ping:
+    chatping.user:
+        description: Grants ability to be pinged as well as access to prefs argument.
         default: true
-    chatping.toggle:
-        default: true
-    chatping.alias:
+    chatping.admin:
+        description: Grants access to default and override arguments.
         default: op

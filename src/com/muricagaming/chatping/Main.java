@@ -26,6 +26,7 @@ public class Main extends JavaPlugin {
 	ArrayList<PlayerPreferences> players;
 	public static final Sound[] SOUNDS = Sound.values();
 	public ArrayList<String> soundList;
+	private static final List<String> COLORS = Arrays.asList(new String[]{"a", "b", "c", "d", "e", "f", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"});
 	
 	public void onEnable() {
 		saveDefaultConfig();
@@ -82,25 +83,163 @@ public class Main extends JavaPlugin {
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (cmd.getName().equalsIgnoreCase("chatping") && args.length > 0) {
-			if (args[0].equalsIgnoreCase("sound") && args.length > 1) {
-				args[1] = args[1].toUpperCase();
-				boolean worked = false;
-				
-				for (Sound s : Sound.values())
-					if (s.toString().equalsIgnoreCase(args[1])) {
-						saveToConfig("sound", args[1]);
-						sender.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "ChatPing" + ChatColor.DARK_GRAY + "] " + ChatColor.GREEN + "Set sound to " + args[1]);
-						if (sender instanceof Player)
-							((Player) sender).playSound(((Player) sender).getLocation(), Sound.valueOf(args[1]), 1, 1);
-						worked = true;
-						break;
+			if (args[0].equalsIgnoreCase("prefs") && args.length > 2 && sender instanceof Player) {
+				PlayerPreferences prefs = findPlayerPrefs(((Player) sender).getUniqueId());
+
+				// Toggle ping, sound, and aliases
+				if(args[1].equalsIgnoreCase("toggle")) {
+					if (args[2].equalsIgnoreCase("ping")) {
+						prefs.pingsOn = !prefs.pingsOn;
+						sender.sendMessage(prefix + ChatColor.GREEN + "Toggled pings to " + prefs.pingsOn + ".");
 					}
-				if (!worked)
-					sender.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "ChatPing" + ChatColor.DARK_GRAY + "] " + ChatColor.RED + "Invalid sound! List of sounds: http://bit.ly/2aMdrxI");
+					if (args[2].equalsIgnoreCase("sound")) {
+						prefs.soundOn = !prefs.soundOn;
+						sender.sendMessage(prefix + ChatColor.GREEN + "Toggled sound to " + prefs.soundOn + ".");
+					}
+					if (args[2].equalsIgnoreCase("aliases")) {
+						prefs.aliasesOn = !prefs.aliasesOn;
+						sender.sendMessage(prefix + ChatColor.GREEN + "Toggled sound to " + prefs.aliasesOn + ".");
+					}
+				}
+				// Set sound
+				else if (args[1].equalsIgnoreCase("sound")) {
+					args[2] = args[2].toUpperCase();
+					boolean worked = false;
+
+					for (Sound s : Sound.values())
+						if (s.toString().equalsIgnoreCase(args[2])) {
+							prefs.pingSound = Sound.valueOf(args[2]);
+							sender.sendMessage(prefix + ChatColor.GREEN + "Set sound to " + args[2]);
+							((Player) sender).playSound(((Player) sender).getLocation(), prefs.pingSound, 1, 1);
+							worked = true;
+							break;
+						}
+					if (!worked)
+						sender.sendMessage(prefix + ChatColor.RED + "Invalid sound! List of sounds: http://bit.ly/2aMdrxI");
+				}
+
+				// Set color
+				else if (args[1].equalsIgnoreCase("color")) {
+					boolean worked = false;
+					if(COLORS.contains(String.valueOf(args[2].charAt(0)))) {
+						prefs.highlightColor = ChatColor.getByChar(args[2].charAt(0));
+						sender.sendMessage(prefix + ChatColor.GREEN + "Set color to " + prefs.highlightColor + args[2] + ChatColor.GREEN + ".");
+					}
+					else
+						sender.sendMessage(prefix + ChatColor.RED + "Invalid color! List of colors: abcdef0123456789");
+				}
+				else if(args[1].equalsIgnoreCase("alias"))
+					if(prefs.addRemoveAlias(args[2]))
+						sender.sendMessage(prefix + ChatColor.GREEN + "Added" + ChatColor.GRAY + " alias " + ChatColor.AQUA + args[2] + ChatColor.GRAY +  ".");
+					else
+						sender.sendMessage(prefix + ChatColor.RED + "Removed" + ChatColor.GRAY + " alias " + ChatColor.AQUA + args[2] + ChatColor.GRAY +  ".");
+			}
+			else if (args[0].equalsIgnoreCase("defaults") && sender.hasPermission("chatping.admin") && args.length > 2) {
+
+				// Toggle ping, sound, and aliases
+				if(args[1].equalsIgnoreCase("toggle")) {
+					if (args[2].equalsIgnoreCase("ping")) {
+						pingsEnabled = !pingsEnabled;
+						sender.sendMessage(prefix + ChatColor.GREEN + "Toggled pings to " + pingsEnabled + " for new players.");
+					}
+					if (args[2].equalsIgnoreCase("sound")) {
+						soundEnabled = !soundEnabled;
+						sender.sendMessage(prefix + ChatColor.GREEN + "Toggled default sound to " + soundEnabled + " for new players.");
+					}
+					if (args[2].equalsIgnoreCase("aliases")) {
+						aliasesEnabled = !aliasesEnabled;
+						sender.sendMessage(prefix + ChatColor.GREEN + "Toggled aliases to " + aliasesEnabled + " for new players.");
+					}
+				}
+				// Set sound
+				else if (args[1].equalsIgnoreCase("sound")) {
+					args[2] = args[2].toUpperCase();
+					boolean worked = false;
+
+					for (Sound s : Sound.values())
+						if (s.toString().equalsIgnoreCase(args[2])) {
+							pingSound = Sound.valueOf(args[2]);
+							sender.sendMessage(prefix + ChatColor.GREEN + "Set sound to " + args[2] + " for new players.");
+							if (sender instanceof Player)
+								((Player) sender).playSound(((Player) sender).getLocation(), pingSound, 1, 1);
+							worked = true;
+							break;
+						}
+					if (!worked)
+						sender.sendMessage(prefix + ChatColor.RED + "Invalid sound! List of sounds: http://bit.ly/2aMdrxI");
+				}
+
+				// Set color
+				else if (args[1].equalsIgnoreCase("color")) {
+					boolean worked = false;
+					if(COLORS.contains(String.valueOf(args[2].charAt(0)))) {
+						highlightColor = ChatColor.getByChar(args[2].charAt(0));
+						sender.sendMessage(prefix + ChatColor.GREEN + "Set color to " + highlightColor + args[2] + ChatColor.GREEN + ".");
+					}
+					else
+						sender.sendMessage(prefix + ChatColor.RED + "Invalid color! List of colors: abcdef0123456789");
+				}
+			}
+			else if (args[0].equalsIgnoreCase("override") && sender.hasPermission("chatping.admin") && args.length > 3) {
+				try {
+					PlayerPreferences prefs = findPlayerPrefs(Objects.requireNonNull(getServer().getPlayer(args[1])).getUniqueId());
+
+					// Toggle ping, sound, and aliases
+					if(args[2].equalsIgnoreCase("toggle")) {
+						if (args[3].equalsIgnoreCase("ping")) {
+							prefs.pingsOn = !prefs.pingsOn;
+							sender.sendMessage(prefix + ChatColor.GREEN + "Toggled pings to " + prefs.pingsOn + " for " + getServer().getPlayer(args[1]) + ".");
+						}
+						if (args[3].equalsIgnoreCase("sound")) {
+							prefs.soundOn = !prefs.soundOn;
+							sender.sendMessage(prefix + ChatColor.GREEN + "Toggled sound to " + prefs.soundOn + " for " + getServer().getPlayer(args[1]) + ".");
+						}
+						if (args[3].equalsIgnoreCase("aliases")) {
+							prefs.aliasesOn = !prefs.aliasesOn;
+							sender.sendMessage(prefix + ChatColor.GREEN + "Toggled sound to " + prefs.aliasesOn + " for " + getServer().getPlayer(args[1]) + ".");
+						}
+					}
+					// Set sound
+					else if (args[2].equalsIgnoreCase("sound")) {
+						args[3] = args[3].toUpperCase();
+						boolean worked = false;
+
+						for (Sound s : Sound.values())
+							if (s.toString().equalsIgnoreCase(args[3])) {
+								prefs.pingSound = Sound.valueOf(args[3]);
+								sender.sendMessage(prefix + ChatColor.GREEN + "Set sound to " + args[2] + " for " + getServer().getPlayer(args[1]) + ".");
+								((Player) sender).playSound(((Player) sender).getLocation(), prefs.pingSound, 1, 1);
+								worked = true;
+								break;
+							}
+						if (!worked)
+							sender.sendMessage(prefix + ChatColor.RED + "Invalid sound! List of sounds: http://bit.ly/2aMdrxI");
+					}
+
+					// Set color
+					else if (args[2].equalsIgnoreCase("color")) {
+						boolean worked = false;
+						if(COLORS.contains(String.valueOf(args[3].charAt(0)))) {
+							prefs.highlightColor = ChatColor.getByChar(args[3].charAt(0));
+							sender.sendMessage(prefix + ChatColor.GREEN + "Set color to " + prefs.highlightColor + args[3] + ChatColor.GREEN + ".");
+						}
+						else
+							sender.sendMessage(prefix + ChatColor.RED + "Invalid color! List of colors: abcdef0123456789");
+					}
+					else if(args[2].equalsIgnoreCase("alias"))
+						if(prefs.addRemoveAlias(args[3]))
+							sender.sendMessage(prefix + ChatColor.GREEN + "Added" + ChatColor.GRAY + " alias " + ChatColor.AQUA + args[3] + ChatColor.GRAY + " to " + ChatColor.AQUA + getServer().getPlayer(prefs.playerID) + ChatColor.GRAY + ".");
+						else
+							sender.sendMessage(prefix + ChatColor.RED + "Removed" + ChatColor.GRAY + " alias " + ChatColor.AQUA + args[3] + ChatColor.GRAY + " from " + ChatColor.AQUA + getServer().getPlayer(prefs.playerID) + ChatColor.GRAY +  ".");
+				}
+				catch (Exception e)
+				{
+					sender.sendMessage(prefix + ChatColor.RED + "Could not find that player!");
+				}
 			}
 		}
 		else {
-			sender.sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "ChatPing" + ChatColor.DARK_GRAY + "] " + ChatColor.RED + "Invalid arguments!");
+			sender.sendMessage(prefix + ChatColor.RED + "Invalid arguments!");
 		}
 		return true;
 	}
