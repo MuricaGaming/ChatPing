@@ -23,6 +23,7 @@ public class Main extends JavaPlugin {
 	ChatColor highlightColor;
 	// String prefix = ChatColor.DARK_GRAY + "[" + ChatColor.GOLD + "ChatPing" + ChatColor.DARK_GRAY + "] " + ChatColor.RESET;
 	String prefix;
+	String consolePrefix = "[ChatPing]";
 	ArrayList<PlayerPreferences> players;
 	public static final Sound[] SOUNDS = Sound.values();
 	public ArrayList<String> soundList;
@@ -64,8 +65,10 @@ public class Main extends JavaPlugin {
 		Objects.requireNonNull(getCommand("chatping")).setTabCompleter(new Tabby(this));
 
 		loadPlayers();
-		
-		logger.info(prefix + "ChatPing has been enabled!");
+
+		logger.info(consolePrefix + "Defaults and user preferences loaded into memory.");
+		logger.info(consolePrefix + "Changes to config file while server is running will be overwritten upon shutdown.");
+		logger.info(consolePrefix + "ChatPing has been enabled!");
 	}
 	
 	public void onDisable() {
@@ -77,8 +80,8 @@ public class Main extends JavaPlugin {
 
 		savePlayers();
 
-		logger.info(prefix + "Defaults and preferences saved to config.");
-		logger.info(prefix + "ChatPing has been disabled!");
+		logger.info(consolePrefix + "Defaults and user preferences saved to config.");
+		logger.info(consolePrefix + "ChatPing has been disabled!");
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
