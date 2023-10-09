@@ -144,7 +144,7 @@ public class Main extends JavaPlugin {
 					}
 					if (args[2].equalsIgnoreCase("sound")) {
 						soundEnabled = !soundEnabled;
-						sender.sendMessage(prefix + ChatColor.GREEN + "Toggled default sound to " + soundEnabled + " for new players.");
+						sender.sendMessage(prefix + ChatColor.GREEN + "Toggled sound to " + soundEnabled + " for new players.");
 					}
 					if (args[2].equalsIgnoreCase("aliases")) {
 						aliasesEnabled = !aliasesEnabled;
