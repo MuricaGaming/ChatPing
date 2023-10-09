@@ -1,14 +1,22 @@
 # This is the config file for ChatPing.
 # Please use in-game commands to make changes.
+# Source: https://github.com/MuricaGaming/ChatPing
+# Support the author! https://ko-fi.com/LeeNeighoff
 
-ping-sound: "ENTITY_CAT_AMBIENT"
-highlight-color: "6"
-sound-enabled: true
-color-enabled: true
-message-enabled: true
+prefix: "&8[&6ChatPing&8]&r "
+
+defaults:
+  pings-enabled: true
+  sound-enabled: true
+  aliases-enabled: false
+  ping-sound: "ENTITY_CAT_AMBIENT"
+  highlight-color: "GOLD"
 
 player-prefs:
   00000000-0000-0000-0000-000000000000:
-    prefs: "10101000001"
-    color: "6"
-    sound: "ENTITY_CAT_AMBIENT"
+    pings-enabled: true
+    sound-enabled: true
+    aliases-enabled: false
+    ping-sound: "ENTITY_CAT_AMBIENT"
+    highlight-color: "GOLD"
+    aliases: []
