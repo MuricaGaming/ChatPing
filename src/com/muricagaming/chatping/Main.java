@@ -94,11 +94,11 @@ public class Main extends JavaPlugin {
 					}
 					if (args[2].equalsIgnoreCase("sound")) {
 						prefs.soundOn = !prefs.soundOn;
-						sender.sendMessage(prefix + ChatColor.GREEN + "Toggled sound to " + prefs.soundOn + ".");
+						sender.sendMessage(prefix + ChatColor.GREEN + "Toggled ping sound to " + prefs.soundOn + ".");
 					}
 					if (args[2].equalsIgnoreCase("aliases")) {
 						prefs.aliasesOn = !prefs.aliasesOn;
-						sender.sendMessage(prefix + ChatColor.GREEN + "Toggled sound to " + prefs.aliasesOn + ".");
+						sender.sendMessage(prefix + ChatColor.GREEN + "Toggled ping by alias to " + prefs.aliasesOn + ".");
 					}
 				}
 				// Set sound
@@ -144,11 +144,11 @@ public class Main extends JavaPlugin {
 					}
 					if (args[2].equalsIgnoreCase("sound")) {
 						soundEnabled = !soundEnabled;
-						sender.sendMessage(prefix + ChatColor.GREEN + "Toggled sound to " + soundEnabled + " for new players.");
+						sender.sendMessage(prefix + ChatColor.GREEN + "Toggled ping sound to " + soundEnabled + " for new players.");
 					}
 					if (args[2].equalsIgnoreCase("aliases")) {
 						aliasesEnabled = !aliasesEnabled;
-						sender.sendMessage(prefix + ChatColor.GREEN + "Toggled aliases to " + aliasesEnabled + " for new players.");
+						sender.sendMessage(prefix + ChatColor.GREEN + "Toggled ping by alias to " + aliasesEnabled + " for new players.");
 					}
 				}
 				// Set sound
@@ -192,11 +192,11 @@ public class Main extends JavaPlugin {
 						}
 						if (args[3].equalsIgnoreCase("sound")) {
 							prefs.soundOn = !prefs.soundOn;
-							sender.sendMessage(prefix + ChatColor.GREEN + "Toggled sound to " + prefs.soundOn + " for " + getServer().getPlayer(args[1]) + ".");
+							sender.sendMessage(prefix + ChatColor.GREEN + "Toggled ping sound to " + prefs.soundOn + " for " + getServer().getPlayer(args[1]) + ".");
 						}
 						if (args[3].equalsIgnoreCase("aliases")) {
 							prefs.aliasesOn = !prefs.aliasesOn;
-							sender.sendMessage(prefix + ChatColor.GREEN + "Toggled sound to " + prefs.aliasesOn + " for " + getServer().getPlayer(args[1]) + ".");
+							sender.sendMessage(prefix + ChatColor.GREEN + "Toggled ping by alias to " + prefs.aliasesOn + " for " + getServer().getPlayer(args[1]) + ".");
 						}
 					}
 					// Set sound
