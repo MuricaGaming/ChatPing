@@ -35,8 +35,8 @@ public class Tabby implements TabCompleter {
             StringUtil.copyPartialMatches(args[0], Arrays.asList(ADMIN_OPTIONS), completions);
         if (args.length == 2 && (args[0].equalsIgnoreCase("prefs") || args[0].equalsIgnoreCase("defaults")))
             StringUtil.copyPartialMatches(args[1], Arrays.asList(PREFS_OPTIONS), completions);
-        if (args.length == 3 && args[2].equalsIgnoreCase("toggle"))
-            StringUtil.copyPartialMatches(args[3], Arrays.asList(TOGGLE_OPTIONS), completions);
+        if (args.length == 3 && args[1].equalsIgnoreCase("toggle"))
+            StringUtil.copyPartialMatches(args[2], Arrays.asList(TOGGLE_OPTIONS), completions);
         if (args.length == 3 && args[1].equalsIgnoreCase("color"))
             StringUtil.copyPartialMatches(args[2], Arrays.asList(COLORS), completions);
         if (args.length == 2 && args[0].equalsIgnoreCase("override"))
@@ -51,8 +51,8 @@ public class Tabby implements TabCompleter {
             StringUtil.copyPartialMatches(args[0], Arrays.asList(PLAYER_OPTIONS), completions);
         if (args.length == 2 && args[0].equalsIgnoreCase("prefs"))
             StringUtil.copyPartialMatches(args[1], Arrays.asList(PREFS_OPTIONS), completions);
-        if (args.length == 3 && args[2].equalsIgnoreCase("toggle"))
-            StringUtil.copyPartialMatches(args[3], Arrays.asList(TOGGLE_OPTIONS), completions);
+        if (args.length == 3 && args[1].equalsIgnoreCase("toggle"))
+            StringUtil.copyPartialMatches(args[2], Arrays.asList(TOGGLE_OPTIONS), completions);
         if (args.length == 3 && args[1].equalsIgnoreCase("color"))
             StringUtil.copyPartialMatches(args[2], Arrays.asList(COLORS), completions);
     }
