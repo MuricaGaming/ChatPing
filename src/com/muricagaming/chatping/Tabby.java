@@ -16,7 +16,7 @@ public class Tabby implements TabCompleter {
     List<String> completions;
     private static final String[] ADMIN_OPTIONS = { "prefs", "defaults", "override" };
     private static final String[] PLAYER_OPTIONS = { "prefs" };
-    private static final String[] PREFS_OPTIONS = { "toggle", "sound", "color", "alias" };
+    private static final String[] PREFS_OPTIONS = { "toggle", "sound", "color", "cooldown", "alias" };
     private static final String[] TOGGLE_OPTIONS = { "ping", "sound", "aliases" };
     private static final String[] COLORS = { "a", "b", "c", "d", "e", "f", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
     private final Main main;

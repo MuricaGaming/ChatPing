@@ -5,12 +5,13 @@
 
 prefix: "&8[&6ChatPing&8]&r "
 
-defaults:
-  pings-enabled: true
-  sound-enabled: true
-  aliases-enabled: false
-  ping-sound: "ENTITY_CAT_AMBIENT"
-  highlight-color: "GOLD"
+defaults: # Whether certain functions are enabled by default for new players
+  pings-enabled: true # Ping functionality
+  sound-enabled: true # Ping sounds
+  aliases-enabled: false # Ping by alias
+  ping-sound: "ENTITY_CAT_AMBIENT" # Sound for ping
+  highlight-color: "GOLD" # Color of pinged name in chat messages
+  cooldown: 30 # Cooldown between sound pings
 
 player-prefs:
   00000000-0000-0000-0000-000000000000:
@@ -19,4 +20,5 @@ player-prefs:
     aliases-enabled: false
     ping-sound: "ENTITY_CAT_AMBIENT"
     highlight-color: "GOLD"
+    cooldown: 30
     aliases: []

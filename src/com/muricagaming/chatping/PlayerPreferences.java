@@ -3,6 +3,7 @@ package com.muricagaming.chatping;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,6 +15,8 @@ public class PlayerPreferences {
     boolean pingsOn;
     boolean soundOn;
     boolean aliasesOn;
+    int cooldown;
+    Date lastPing;
 
     Main main;
 
@@ -28,10 +31,11 @@ public class PlayerPreferences {
         aliasesOn = main.aliasesEnabled; // aliasesEnabled
         pingSound = main.pingSound;
         highlightColor = main.highlightColor;
+        cooldown = main.cooldown;
         aliases = new ArrayList<>();
     }
 
-    public PlayerPreferences(UUID id, boolean pE, boolean sE, boolean aE, Sound ping, ChatColor highlight, List<String> names, Main plugin) {
+    public PlayerPreferences(UUID id, boolean pE, boolean sE, boolean aE, Sound ping, ChatColor highlight, int cd, List<String> names, Main plugin) {
         // Initialize player preferences from config
 
         playerID = id;
@@ -42,6 +46,7 @@ public class PlayerPreferences {
         aliasesOn = aE;
         pingSound = ping;
         highlightColor = highlight;
+        cooldown = cd;
         aliases = names;
     }
 

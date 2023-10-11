@@ -1,7 +1,9 @@
 package com.muricagaming.chatping;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.bukkit.ChatColor;
@@ -53,7 +55,7 @@ public class ChatListener implements Listener
 
 			if (p.hasPermission("chatping.user") && recipientPrefs.pingsOn && (nameFound || aliasFound)) {
 				matches = new ArrayList<>();
-				if (recipientPrefs.soundOn)
+				if (recipientPrefs.soundOn && Date.from(Instant.now()).getTime() - recipientPrefs.lastPing.getTime() > recipientPrefs.cooldown)
 					p.playSound(p.getLocation(), recipientPrefs.pingSound, 1, 1);
 				chat.getRecipients().remove(p);
 				coloredmessage = message;
@@ -77,6 +79,7 @@ public class ChatListener implements Listener
 					}
 				}
 				p.sendMessage(chat.getFormat().replace("%1$s", chat.getPlayer().getDisplayName()).replace("%2$s", coloredmessage));
+				recipientPrefs.lastPing = new Date();
 			}
 			aliasFound = false;
 			nameFound = false;
