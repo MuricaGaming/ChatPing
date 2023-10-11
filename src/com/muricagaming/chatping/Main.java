@@ -77,6 +77,16 @@ public class Main extends JavaPlugin {
 		getConfig().set("soundEnabled", null);
 		getConfig().set("colorEnabled", null);
 		getConfig().set("messageEnabled", null);
+
+		// Add cooldown to player-prefs missing it
+		ConfigurationSection section = getConfig().getConfigurationSection("player-prefs");
+		assert section != null;
+		for (String idString : section.getKeys(false)) {
+			if (getConfig().contains("player-prefs." + idString + ".cooldown", false)) {
+				saveToConfig("player-prefs." + idString + ".cooldown", cooldown);
+				logger.info("Added missing cooldown to config for " + getServer().getOfflinePlayer(idString) + ".");
+			}
+		}
 		
 		cl = new ChatListener(this);
 		jl = new JoinListener(this);
