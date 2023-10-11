@@ -2,10 +2,14 @@ package com.muricagaming.chatping;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
+
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+
+import static java.util.Date.from;
 
 public class PlayerPreferences {
     UUID playerID;
@@ -32,10 +36,11 @@ public class PlayerPreferences {
         pingSound = main.pingSound;
         highlightColor = main.highlightColor;
         cooldown = main.cooldown;
+        lastPing = from(Instant.now());
         aliases = new ArrayList<>();
     }
 
-    public PlayerPreferences(UUID id, boolean pE, boolean sE, boolean aE, Sound ping, ChatColor highlight, int cd, List<String> names, Main plugin) {
+    public PlayerPreferences(UUID id, boolean pE, boolean sE, boolean aE, Sound ping, ChatColor highlight, int cd, Date lp, List<String> names, Main plugin) {
         // Initialize player preferences from config
 
         playerID = id;
@@ -47,6 +52,7 @@ public class PlayerPreferences {
         pingSound = ping;
         highlightColor = highlight;
         cooldown = cd;
+        lastPing = lp;
         aliases = names;
     }
 

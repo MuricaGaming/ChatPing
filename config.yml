@@ -1,5 +1,6 @@
 # This is the config file for ChatPing.
 # Please use in-game commands to make changes.
+# Changes made here while the server is running will be overwritten on server stop.
 # Source: https://github.com/MuricaGaming/ChatPing
 # Support the author! https://ko-fi.com/LeeNeighoff
 

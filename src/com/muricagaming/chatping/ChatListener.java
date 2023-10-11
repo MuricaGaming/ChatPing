@@ -1,6 +1,8 @@
 package com.muricagaming.chatping;
 
+import java.time.Duration;
 import java.time.Instant;
+import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -55,7 +57,7 @@ public class ChatListener implements Listener
 
 			if (p.hasPermission("chatping.user") && recipientPrefs.pingsOn && (nameFound || aliasFound)) {
 				matches = new ArrayList<>();
-				if (recipientPrefs.soundOn && Date.from(Instant.now()).getTime() - recipientPrefs.lastPing.getTime() > recipientPrefs.cooldown)
+				if (recipientPrefs.soundOn && Duration.between(recipientPrefs.lastPing.toInstant(), Instant.now()).toMillis() > (recipientPrefs.cooldown * 1000L))
 					p.playSound(p.getLocation(), recipientPrefs.pingSound, 1, 1);
 				chat.getRecipients().remove(p);
 				coloredmessage = message;

@@ -1,5 +1,6 @@
 package com.muricagaming.chatping;
 
+import java.time.Instant;
 import java.util.*;
 import java.util.logging.Logger;
 import org.bukkit.ChatColor;
@@ -24,7 +25,7 @@ public class Main extends JavaPlugin {
 	int cooldown;
 	// String prefix = ChatColor.DARK_GRAY + "[" + ChatColor.GOLD + "ChatPing" + ChatColor.DARK_GRAY + "] " + ChatColor.RESET;
 	String prefix;
-	String consolePrefix = "[ChatPing]";
+	String consolePrefix = "[ChatPing] ";
 	ArrayList<PlayerPreferences> players;
 	public static final Sound[] SOUNDS = Sound.values();
 	public ArrayList<String> soundList;
@@ -47,7 +48,7 @@ public class Main extends JavaPlugin {
 		}
 		catch (Exception e)
 		{
-			logger.warning("Couldn't load defaults! Using internal defaults and setting them in the config.");
+			logger.warning(consolePrefix + "Couldn't load defaults! Using internal defaults and setting them in the config.");
 
 			pingsEnabled = true;
 			soundEnabled = true;
@@ -82,9 +83,10 @@ public class Main extends JavaPlugin {
 		ConfigurationSection section = getConfig().getConfigurationSection("player-prefs");
 		assert section != null;
 		for (String idString : section.getKeys(false)) {
-			if (getConfig().contains("player-prefs." + idString + ".cooldown", false)) {
+			if (!getConfig().contains("player-prefs." + idString + ".cooldown", false) || !getConfig().contains("player-prefs." + idString + ".last-ping", false)) {
 				saveToConfig("player-prefs." + idString + ".cooldown", cooldown);
-				logger.info("Added missing cooldown to config for " + getServer().getOfflinePlayer(idString) + ".");
+				saveToConfig("player-prefs." + idString + ".last-ping", Date.from(Instant.now()));
+				logger.info(consolePrefix + "Added missing cooldown info to config for " + getServer().getOfflinePlayer(UUID.fromString(idString)).getUniqueId() + ".");
 			}
 		}
 		
@@ -354,6 +356,7 @@ public class Main extends JavaPlugin {
 					Sound.valueOf(getConfig().getString("player-prefs." + idString + ".ping-sound")),
 					ChatColor.valueOf(getConfig().getString("player-prefs." + idString + ".highlight-color")),
 					getConfig().getInt("player-prefs." + idString + ".cooldown"),
+					(Date) getConfig().get("player-prefs." + idString + ".last-ping"),
 					getConfig().getStringList("player-prefs." + idString + ".aliases"),
 					this));
 		}
@@ -367,6 +370,7 @@ public class Main extends JavaPlugin {
 			saveToConfig("player-prefs." + pp.playerID + ".ping-sound", pp.pingSound.toString());
 			saveToConfig("player-prefs." + pp.playerID + ".highlight-color", pp.highlightColor.name());
 			saveToConfig("player-prefs." + pp.playerID + ".cooldown", pp.cooldown);
+			saveToConfig("player-prefs." + pp.playerID + ".last-ping", pp.lastPing);
 			saveToConfig("player-prefs." + pp.playerID + ".aliases", pp.aliases);
 		}
 	}
